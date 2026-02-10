@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO Meta Tags -->
+    <title>whatismydns — Free DNS Lookup, WHOIS, SSL Checker & What's My IP</title>
+    <meta name="description"
+        content="whatismydns — Free online DNS lookup, WHOIS, SSL certificate checker, and IP address lookup tool. Find your IP address, country, and analyze any domain instantly." />
+    <meta name="keywords"
+        content="DNS lookup, WHOIS lookup, SSL checker, what is my IP, IP address, domain check, DNS checker, IP manzilim, DNS tekshirish, проверка DNS, мой IP адрес" />
+    <meta name="author" content="whatismydns" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="whatismydns — Free DNS Lookup & What's My IP Tool" />
+    <meta property="og:description"
+        content="Comprehensive DNS, WHOIS, SSL & IP lookup tool. Find your IP address and analyze any domain in seconds." />
+    <meta property="og:site_name" content="whatismydns" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="uz_UZ" />
+    <meta property="og:locale:alternate" content="ru_RU" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="whatismydns — Free DNS Lookup & IP Checker" />
+    <meta name="twitter:description"
+        content="Free DNS, WHOIS, SSL checker & What's My IP tool. Analyze domains instantly." />
+
+    <!-- Canonical & Alternate Languages -->
+    <link rel="canonical" href="/" />
+    <link rel="alternate" hreflang="en" href="/en" />
+    <link rel="alternate" hreflang="uz" href="/uz" />
+    <link rel="alternate" hreflang="ru" href="/ru" />
+    <link rel="alternate" hreflang="x-default" href="/" />
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+    <!-- Structured Data / JSON-LD for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "whatismydns",
+        "url": "/",
+        "description": "Free online DNS lookup, WHOIS check, SSL certificate verification, and IP address detection tool.",
+        "applicationCategory": "NetworkingApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "inLanguage": ["en", "uz", "ru"]
+    }
+    </script>
+</head>
+
+<body>
+    <!-- ═══ App Layout ═══════════════════════════════════════════ -->
+    <div class="app-layout">
+
+        <!-- ═══ LEFT SIDEBAR — My IP ═══════════════════════════════ -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-inner">
+                <!-- Brand -->
+                <a href="/" class="sidebar-brand" aria-label="whatismydns Home">
+                    <div class="brand-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                    </div>
+                    <span class="brand-text">whatismydns</span>
+                </a>
+
+                <!-- Language Switcher -->
+                <div class="lang-switcher" role="group" aria-label="Language Selector">
+                    <button class="lang-btn" data-lang="uz" aria-label="O'zbek tili">UZ</button>
+                    <button class="lang-btn" data-lang="ru" aria-label="Русский язык">RU</button>
+                    <button class="lang-btn active" data-lang="en" aria-label="English language">EN</button>
+                </div>
+
+                <!-- Divider -->
+                <div class="sidebar-divider"></div>
+
+                <!-- My IP Section -->
+                <div class="ip-section">
+                    <div class="ip-section-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <span id="sidebar-ip-title">Your IP Address</span>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="ip-loading" id="myip-loading">
+                        <div class="ip-spinner"></div>
+                        <span id="myip-loading-text">Detecting...</span>
+                    </div>
+
+                    <!-- IP Content -->
+                    <div class="ip-content" id="myip-content" style="display:none;">
+                        <div class="ip-address-row">
+                            <div class="ip-address-display">
+                                <span class="ip-flag" id="myip-flag">🌍</span>
+                                <span class="ip-value" id="myip-ip">—</span>
+                            </div>
+                            <button class="ip-copy-btn" id="myip-copy-btn" title="Copy IP" aria-label="Copy IP Address">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="ip-details">
+                            <div class="ip-detail-row">
+                                <span class="ip-detail-label" id="myip-country-label">Country</span>
+                                <span class="ip-detail-value" id="myip-country">—</span>
+                            </div>
+                            <div class="ip-detail-row">
+                                <span class="ip-detail-label" id="myip-city-label">City</span>
+                                <span class="ip-detail-value" id="myip-city">—</span>
+                            </div>
+                            <div class="ip-detail-row">
+                                <span class="ip-detail-label" id="myip-isp-label">ISP</span>
+                                <span class="ip-detail-value" id="myip-isp">—</span>
+                            </div>
+                            <div class="ip-detail-row">
+                                <span class="ip-detail-label" id="myip-tz-label">Timezone</span>
+                                <span class="ip-detail-value" id="myip-timezone">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Footer -->
+                <div class="sidebar-footer">
+                    <div class="sidebar-footer-links">
+                        <a href="/en/dns-lookup" id="flink-dns">DNS Lookup</a>
+                        <a href="/en/whois-lookup" id="flink-whois">WHOIS</a>
+                        <a href="/en/ssl-checker" id="flink-ssl">SSL Checker</a>
+                        <a href="/en/whats-my-ip" id="flink-ip">What's My IP</a>
+                        <a href="/en/ip-lookup" id="flink-iplookup">IP Lookup</a>
+                    </div>
+                    <div class="sidebar-langs">
+                        <a href="/uz" hreflang="uz">🇺🇿 O'zbekcha</a>
+                        <a href="/ru" hreflang="ru">🇷🇺 Русский</a>
+                        <a href="/en" hreflang="en">🇬🇧 English</a>
+                    </div>
+                    <p class="sidebar-copy" id="footer-2">No API keys required</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Mobile Header -->
+        <header class="mobile-header" id="mobile-header">
+            <a href="/" class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                </div>
+                <span class="brand-text">whatismydns</span>
+            </a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle sidebar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- ═══ RIGHT MAIN CONTENT — Domain Check ═════════════════ -->
+        <main class="main-content">
+            <div class="main-inner">
+
+                <!-- Hero -->
+                <section class="hero" aria-label="Hero Section">
+                    <div class="hero-badge">
+                        <span class="pulse-dot"></span>
+                        <span id="hero-badge-text">Free DNS & IP Lookup Tool</span>
+                    </div>
+                    <h1>
+                        <span id="hero-t1">Analyze Any </span>
+                        <span class="gradient-text" id="hero-t2">Domain </span>
+                        <br />
+                        <span id="hero-t3">in Seconds</span>
+                    </h1>
+                    <p class="hero-subtitle" id="hero-sub">
+                        Comprehensive DNS, WHOIS, SSL, IP lookup & What's My IP — no API keys required.
+                    </p>
+                </section>
+
+                <!-- Category Nav -->
+                <nav class="category-nav" id="category-nav" aria-label="Tool Categories">
+                    <a href="#dns-lookup" class="cat-chip active" data-cat="dns" id="cat-dns">
+                        <span class="cat-text" id="cat-dns-text">DNS Lookup</span>
+                    </a>
+                    <a href="#whois-lookup" class="cat-chip" data-cat="whois" id="cat-whois">
+                        <span class="cat-text" id="cat-whois-text">WHOIS</span>
+                    </a>
+                    <a href="#ssl-checker" class="cat-chip" data-cat="ssl" id="cat-ssl">
+                        <span class="cat-text" id="cat-ssl-text">SSL Checker</span>
+                    </a>
+                    <a href="#ip-lookup" class="cat-chip" data-cat="ip" id="cat-ip">
+                        <span class="cat-text" id="cat-ip-text">IP Lookup</span>
+                    </a>
+                </nav>
+
+                <!-- Search -->
+                <section class="search-section" aria-label="Domain Search">
+                    <div class="search-card" id="dns-lookup">
+                        <form id="search-form" class="search-form" autocomplete="off" role="search">
+                            <div class="input-group">
+                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                </svg>
+                                <input type="text" id="domain-input" class="domain-input"
+                                    placeholder="Enter a domain, e.g. google.com" spellcheck="false" autofocus
+                                    aria-label="Domain name input" />
+                            </div>
+                            <button type="submit" id="btn-check" class="btn-check" aria-label="Check domain">
+                                <span id="btn-label" class="btn-label">Check</span>
+                                <span class="spinner"></span>
+                            </button>
+                        </form>
+
+                        <!-- Quick chips -->
+                        <div class="quick-domains" role="group" aria-label="Quick domain examples">
+                            <span id="quick-label" class="quick-label">Try:</span>
+                            <span class="chip" data-domain="google.com" tabindex="0">google.com</span>
+                            <span class="chip" data-domain="github.com" tabindex="0">github.com</span>
+                            <span class="chip" data-domain="youtube.com" tabindex="0">youtube.com</span>
+                            <span class="chip" data-domain="openai.com" tabindex="0">openai.com</span>
+                        </div>
+
+                        <!-- Error toast -->
+                        <div class="error-toast" id="error-toast" role="alert">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="15" y1="9" x2="9" y2="15" />
+                                <line x1="9" y1="9" x2="15" y2="15" />
+                            </svg>
+                            <span id="error-text"></span>
+                        </div>
+                    </div>
+
+                    <!-- Skeleton loader -->
+                    <div class="skeleton-area" id="skeleton-area" aria-hidden="true">
+                        <div class="skel-card">
+                            <div class="skel-line skel-w80"></div>
+                            <div class="skel-line skel-w60"></div>
+                            <div class="skel-line skel-w40"></div>
+                        </div>
+                        <div class="skel-card">
+                            <div class="skel-line skel-w70"></div>
+                            <div class="skel-line skel-w60"></div>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div id="results" aria-live="polite"></div>
+                </section>
+
+                <!-- SEO Content  -->
+                <section class="seo-content-section" aria-label="About whatismydns">
+                    <div class="seo-grid">
+                        <article class="seo-card" id="seo-dns">
+                            <h2 id="seo-dns-title">DNS Lookup Tool</h2>
+                            <p id="seo-dns-text">Check A, AAAA, NS, MX, TXT, CNAME, and SOA records for any domain.
+                                Our free DNS checker provides comprehensive domain analysis with real-time results.</p>
+                        </article>
+                        <article class="seo-card" id="seo-whois">
+                            <h2 id="seo-whois-title">WHOIS Lookup</h2>
+                            <p id="seo-whois-text">Find domain registration details including registrar, creation
+                                date, expiration date, nameservers, and DNSSEC status.</p>
+                        </article>
+                        <article class="seo-card" id="seo-ssl">
+                            <h2 id="seo-ssl-title">SSL Certificate Checker</h2>
+                            <p id="seo-ssl-text">Verify SSL certificate validity, issuer, expiration date, and Subject
+                                Alternative Names.</p>
+                        </article>
+                        <article class="seo-card" id="seo-ip2">
+                            <h2 id="seo-ip-title">What's My IP Address</h2>
+                            <p id="seo-ip-text">Instantly detect your public IP address, country, city, ISP, and
+                                timezone. Free IP geolocation service.</p>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="main-footer" role="contentinfo">
+                    <p id="footer-1">whatismydns — Free DNS Lookup & IP Address Tool</p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    {% if lang %}
+    <script>
+        if (window.setPageLang) window.setPageLang('{{ lang }}');
+    </script>
+    {% endif %}
+</body>
+
+</html>
